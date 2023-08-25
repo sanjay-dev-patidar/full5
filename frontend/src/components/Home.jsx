@@ -353,17 +353,22 @@ const Home = ({ selectedDocument }) => {
         ))}
       </Box>
       <Modal isOpen={!!zoomedImage} onClose={closeImageZoom} size="full">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Zoomed Image</ModalHeader>
-          <ModalBody>
-            <Image src={zoomedImage} alt="Zoomed" maxH="80vh" mx="auto" />
-          </ModalBody>
-          <ModalFooter>
-            <CloseButton onClick={closeImageZoom} />
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ModalOverlay />
+      <ModalContent>
+       
+        <ModalBody>
+          <Image src={zoomedImage} alt="Zoomed" maxH="80vh" mx="auto" />
+        </ModalBody>
+        <ModalFooter className="modal-footer">
+          <Button
+            onClick={closeImageZoom}
+            className="zoomed-image-button" // Add the class here
+          >
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
     </Box>
   );
 };
