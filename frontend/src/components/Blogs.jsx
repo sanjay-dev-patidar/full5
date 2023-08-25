@@ -298,6 +298,7 @@ const Blogs = () => {
                     {blog.title}
                   </Text>
                   <VStack spacing={2}>{renderMediaContent(blog.overview)}</VStack>
+                  <VStack spacing={2}>{renderMediaContent(blog.what)}</VStack>
                 </VStack>
                 
               </motion.div>
