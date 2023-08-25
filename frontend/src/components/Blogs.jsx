@@ -154,35 +154,52 @@ const Blogs = () => {
     fontSize: "24px",
   };
 
-  const renderMediaContent = (content) => {
-    if (!content) {
-      return null;
-    }
-  
-    return content.map((item, index) => {
-      if (typeof item === "string") {
-        if (item.startsWith("*") && item.endsWith("*")) {
-          const styledText = item.substring(1, item.length - 1);
-          return (
-            <Text key={index} fontWeight="bold"  textColor={"gold"} fontStyle="italic">
-              {styledText}
-            </Text>
-          );
-        } else if  (item.startsWith("$") && item.endsWith("$")) {
-            const styledText = item.substring(1, item.length - 1);
-            return (
-              <Text key={index} fontWeight="bold"  textColor={"red"} fontStyle="bold">
-                {styledText}
-              </Text>
-            );
-          } else if  (item.startsWith("~") && item.endsWith("~")) {
-            const styledText = item.substring(1, item.length - 1);
-            return (
-              <Text key={index} fontWeight="bold"  textColor={"lime"} fontStyle="bold">
-                {styledText}
-              </Text>
-            );
-        } else if (item.startsWith("http")) {
+ const renderMediaContent = (content) => {
+  if (!content) {
+    return null;
+  }
+
+  return content.map((item, index) => {
+    let element;
+
+    if (typeof item === "string") {
+      if (item.startsWith("*") && item.endsWith("*")) {
+        const styledText = item.substring(1, item.length - 1);
+        element = (
+          <Text
+            key={index}
+            fontWeight="bold"
+            textColor="gold"
+            fontStyle="italic"
+          >
+            {styledText}
+          </Text>
+        );
+      } else if (item.startsWith("$") && item.endsWith("$")) {
+        const styledText = item.substring(1, item.length - 1);
+        element = (
+          <Text
+            key={index}
+            fontWeight="bold"
+            textColor="red"
+            fontStyle="bold"
+          >
+            {styledText}
+          </Text>
+        );
+      } else if (item.startsWith("~") && item.endsWith("~")) {
+        const styledText = item.substring(1, item.length - 1);
+        element = (
+          <Text
+            key={index}
+            fontWeight="bold"
+            textColor="lime"
+            fontStyle="bold"
+          >
+            {styledText}
+          </Text>
+        );
+       } else if (item.startsWith("http")) {
           if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
             return (
               <Image
@@ -210,23 +227,25 @@ const Blogs = () => {
                 />
               </Box>
             );
-          } else {
-            return <Text key={index}>{item}</Text>;
-          }
-        } else {
-          return <Text key={index}>{item}</Text>;
-        }
-      } else if (Array.isArray(item)) {
-        return (
-          <VStack key={index} align="start" spacing={2} mt={2}>
-            {renderMediaContent(item)}
-          </VStack>
-        );
+      } else {
+        element = <Text key={index}>{item}</Text>;
       }
-    });
-  };
-  
-  
+    } else if (Array.isArray(item)) {
+      element = (
+        <VStack key={index} align="start" spacing={2} mt={2}>
+          {renderMediaContent(item)}
+        </VStack>
+      );
+    }
+
+    return (
+      <Box key={index} mb={2}> {/* Add margin bottom */}
+        {element}
+      </Box>
+    );
+  });
+};
+
   
   const navbarHeight = document.querySelector(".navbar")?.clientHeight || 0;
   return (
