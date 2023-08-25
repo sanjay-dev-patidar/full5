@@ -306,7 +306,7 @@ const renderMediaContent = (content) => {
                  <VStack spacing={2}>{renderMediaContent(blog.overview)}</VStack>
 <VStack spacing={2}>{renderMediaContent(blog.what)}</VStack>
 <VStack spacing={2}>{renderMediaContent(blog.feature)}</VStack>
-                  <VStack spacing={2}>{renderMediaContent(blog.getstart)}</VStack>
+                  <VStack spacing={2}>{renderMediaContent(blog.setting)}</VStack>
                 </VStack>
                 
               </motion.div>
