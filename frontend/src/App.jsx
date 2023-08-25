@@ -34,7 +34,7 @@ const App = () => {
                 </>
               )}
             />
-            <Route path="/blogs/*" element={<BlogsHeader />} />
+            <Route path="/blogs/*" element={<Blogs />} />
           </Routes>
         </div>
 
@@ -43,12 +43,6 @@ const App = () => {
         </div>
       </div>
     </BrowserRouter>
-  );
-};
-
-const BlogsHeader = () => {
-  return (
-    <Route path="/blogs/*" element={<HeaderForBlogs />} />
   );
 };
 
