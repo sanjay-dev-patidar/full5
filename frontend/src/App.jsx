@@ -34,6 +34,10 @@ const App = () => {
                 </>
               )}
             />
+            <Route
+              path="/home/:selectedField"
+              element={<Home selectedDocument={selectedDocument} />}
+            />
             <Route path="/blogs/*" element={<Blogs />} />
           </Routes>
         </div>
