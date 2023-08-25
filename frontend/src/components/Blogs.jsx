@@ -163,83 +163,57 @@ const renderMediaContent = (content) => {
     let element;
 
     if (typeof item === "string") {
-      const asteriskRegex = /\*(.*?)\*/g;
-      const dollarRegex = /\$(.*?)\$/g;
-      const tildeRegex = /~(.*?)~/g;
-
-      let lastIndex = 0;
-      const elements = [];
-
-      let match;
-      while (
-        (match = asteriskRegex.exec(item)) ||
-        (match = dollarRegex.exec(item)) ||
-        (match = tildeRegex.exec(item))
-      ) {
-        if (match.index !== lastIndex) {
-          elements.push(
-            <Text key={lastIndex}>{item.substring(lastIndex, match.index)}</Text>
-          );
-        }
-
-        elements.push(
-          <Text
-            key={match.index}
-            fontWeight="bold"
-            textColor={
-              match[0].startsWith("*")
-                ? "gold"
-                : match[0].startsWith("$")
-                ? "red"
-                : "lime"
-            }
-            fontStyle={
-              match[0].startsWith("*")
-                ? "italic"
-                : match[0].startsWith("$")
-                ? "bold"
-                : "bold"
-            }
-          >
-            {match[1]}
+      if (item.startsWith("*") && item.endsWith("*")) {
+        const styledText = item.substring(1, item.length - 1);
+        element = (
+          <Text key={index} fontWeight="bold" fontStyle="italic" textColor="gold">
+            {styledText}
           </Text>
         );
-
-        lastIndex = match.index + match[0].length;
-      }
-
-      if (lastIndex < item.length) {
-        elements.push(
-          <Text key={lastIndex}>{item.substring(lastIndex)}</Text>
-        );
-      }
-
-      element = <>{elements}</>;
-    } else if (item.startsWith("http")) {
-      if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
+      } else if (item.startsWith("$") && item.endsWith("$")) {
+        const styledText = item.substring(1, item.length - 1);
         element = (
-          <Image
-            key={index}
-            src={item}
-            alt={`Image ${index}`}
-            maxW="100%"
-            h="auto"
-          />
+          <Text key={index} fontWeight="bold" fontStyle="bold" textColor="red">
+            {styledText}
+          </Text>
         );
-      } else if (item.match(/\.(mp4|webm|mkv)$/)) {
+      } else if (item.startsWith("~") && item.endsWith("~")) {
+        const styledText = item.substring(1, item.length - 1);
         element = (
-          <Box key={index} position="relative" paddingTop="56.25%" width="100%">
-            <ReactPlayer
-              url={item}
-              controls
-              width="100%"
-              height="100%"
-              style={{ position: "absolute", top: 0, left: 0 }}
-            />
-          </Box>
+          <Text key={index} fontWeight="bold" fontStyle="bold" textColor="lime">
+            {styledText}
+          </Text>
         );
+     } else if (item.startsWith("http")) {
+          if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
+            return (
+              <Image
+                key={index}
+                src={item}
+                alt={`Image ${index}`}
+                maxW="100%"
+                h="auto"
+              />
+            );
+          } else if (item.match(/\.(mp4|webm|mkv)$/)) {
+            return (
+              <Box
+                key={index}
+                position="relative"
+                paddingTop="56.25%"
+                width="100%"
+              >
+                <ReactPlayer
+                  url={item}
+                  controls
+                  width="100%"
+                  height="100%"
+                  style={{ position: "absolute", top: 0, left: 0 }}
+                />
+              </Box>
+            );
       } else {
-        element = <Text>{item}</Text>;
+        element = <Text key={index}>{item}</Text>;
       }
     } else if (Array.isArray(item)) {
       element = (
@@ -247,13 +221,12 @@ const renderMediaContent = (content) => {
           {renderMediaContent(item)}
         </VStack>
       );
-    } else {
-      element = <Text>{item}</Text>;
     }
 
     return <Box key={index} mb={2}>{element}</Box>;
   });
 };
+
 
 
   
