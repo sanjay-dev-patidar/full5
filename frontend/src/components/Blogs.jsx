@@ -313,9 +313,10 @@ const Blogs = () => {
                 }
               >
                 <VStack align="start" spacing={2}>
-                  <Text fontSize="lg" fontWeight="semibold">
-                    {blog.title}
-                  </Text>
+                <Text fontSize="lg" fontWeight="semibold">
+  {renderMediaContent([blog.title])}
+</Text>
+
                   <VStack spacing={2}>{renderMediaContent(blog.overview)}</VStack>
                   <VStack spacing={2}>{renderMediaContent(blog.what)}</VStack>
                      <VStack spacing={2}>{renderMediaContent(blog.feature)}</VStack>
