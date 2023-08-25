@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node server.cjs",
-    "deploy": "yarn start",
+    "deploy": "npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
