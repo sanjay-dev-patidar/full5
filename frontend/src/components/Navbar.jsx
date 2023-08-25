@@ -41,8 +41,7 @@ const Navbar = () => {
             to="/blogs"
             activeClassName="active"
             className="nav-link"
-             target="_blank" 
-             rel="noopener noreferrer" 
+            
           >
             Blogs
           </NavLink>
