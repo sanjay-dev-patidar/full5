@@ -35,15 +35,17 @@ const Navbar = () => {
             <br />
             <Typed strings={typedTexts} typeSpeed={80} backSpeed={40} loop />
           </p>
-      <NavLink
-  to="/blogs"
-  activeClassName="active"
-  className="nav-link"
-  target="_blank"  // Add this line to open in a new tab
-  rel="noopener noreferrer" // Recommended for security reasons
->
-  Blogs
-</NavLink>
+        </NavLink>
+        {!isBlogsPage && (
+          <NavLink
+            to="/blogs"
+            activeClassName="active"
+            className="nav-link"
+             target="_blank" 
+             rel="noopener noreferrer" 
+          >
+            Blogs
+          </NavLink>
         )}
       </div>
     </nav>
