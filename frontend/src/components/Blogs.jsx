@@ -184,7 +184,7 @@ const renderMediaContent = (content) => {
             {styledText}
           </Text>
         );
-     } else if (item.startsWith("http")) {
+      } else if (item.startsWith("http")) {
           if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
             return (
               <Image
@@ -221,12 +221,13 @@ const renderMediaContent = (content) => {
           {renderMediaContent(item)}
         </VStack>
       );
+    } else {
+      element = <Text key={index}>{item}</Text>;
     }
 
     return <Box key={index} mb={2}>{element}</Box>;
   });
 };
-
 
 
   
