@@ -154,7 +154,7 @@ const Blogs = () => {
     fontSize: "24px",
   };
 
- const renderMediaContent = (content) => {
+const renderMediaContent = (content) => {
   if (!content) {
     return null;
   }
@@ -163,72 +163,83 @@ const Blogs = () => {
     let element;
 
     if (typeof item === "string") {
-      if (item.startsWith("*") && item.endsWith("*")) {
-        const styledText = item.substring(1, item.length - 1);
-        element = (
+      const asteriskRegex = /\*(.*?)\*/g;
+      const dollarRegex = /\$(.*?)\$/g;
+      const tildeRegex = /~(.*?)~/g;
+
+      let lastIndex = 0;
+      const elements = [];
+
+      let match;
+      while (
+        (match = asteriskRegex.exec(item)) ||
+        (match = dollarRegex.exec(item)) ||
+        (match = tildeRegex.exec(item))
+      ) {
+        if (match.index !== lastIndex) {
+          elements.push(
+            <Text key={lastIndex}>{item.substring(lastIndex, match.index)}</Text>
+          );
+        }
+
+        elements.push(
           <Text
-            key={index}
+            key={match.index}
             fontWeight="bold"
-            textColor="gold"
-            fontStyle="italic"
+            textColor={
+              match[0].startsWith("*")
+                ? "gold"
+                : match[0].startsWith("$")
+                ? "red"
+                : "lime"
+            }
+            fontStyle={
+              match[0].startsWith("*")
+                ? "italic"
+                : match[0].startsWith("$")
+                ? "bold"
+                : "bold"
+            }
           >
-            {styledText}
+            {match[1]}
           </Text>
         );
-      } else if (item.startsWith("$") && item.endsWith("$")) {
-        const styledText = item.substring(1, item.length - 1);
-        element = (
-          <Text
-            key={index}
-            fontWeight="bold"
-            textColor="red"
-            fontStyle="bold"
-          >
-            {styledText}
-          </Text>
+
+        lastIndex = match.index + match[0].length;
+      }
+
+      if (lastIndex < item.length) {
+        elements.push(
+          <Text key={lastIndex}>{item.substring(lastIndex)}</Text>
         );
-      } else if (item.startsWith("~") && item.endsWith("~")) {
-        const styledText = item.substring(1, item.length - 1);
+      }
+
+      element = <>{elements}</>;
+    } else if (item.startsWith("http")) {
+      if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
         element = (
-          <Text
+          <Image
             key={index}
-            fontWeight="bold"
-            textColor="lime"
-            fontStyle="bold"
-          >
-            {styledText}
-          </Text>
+            src={item}
+            alt={`Image ${index}`}
+            maxW="100%"
+            h="auto"
+          />
         );
-       } else if (item.startsWith("http")) {
-          if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
-            return (
-              <Image
-                key={index}
-                src={item}
-                alt={`Image ${index}`}
-                maxW="100%"
-                h="auto"
-              />
-            );
-          } else if (item.match(/\.(mp4|webm|mkv)$/)) {
-            return (
-              <Box
-                key={index}
-                position="relative"
-                paddingTop="56.25%"
-                width="100%"
-              >
-                <ReactPlayer
-                  url={item}
-                  controls
-                  width="100%"
-                  height="100%"
-                  style={{ position: "absolute", top: 0, left: 0 }}
-                />
-              </Box>
-            );
+      } else if (item.match(/\.(mp4|webm|mkv)$/)) {
+        element = (
+          <Box key={index} position="relative" paddingTop="56.25%" width="100%">
+            <ReactPlayer
+              url={item}
+              controls
+              width="100%"
+              height="100%"
+              style={{ position: "absolute", top: 0, left: 0 }}
+            />
+          </Box>
+        );
       } else {
-        element = <Text key={index}>{item}</Text>;
+        element = <Text>{item}</Text>;
       }
     } else if (Array.isArray(item)) {
       element = (
@@ -236,13 +247,11 @@ const Blogs = () => {
           {renderMediaContent(item)}
         </VStack>
       );
+    } else {
+      element = <Text>{item}</Text>;
     }
 
-    return (
-      <Box key={index} mb={2}> {/* Add margin bottom */}
-        {element}
-      </Box>
-    );
+    return <Box key={index} mb={2}>{element}</Box>;
   });
 };
 
