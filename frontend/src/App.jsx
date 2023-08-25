@@ -47,16 +47,8 @@ const App = () => {
 };
 
 const BlogsHeader = () => {
-  const match = useMatch("/blogs/*"); // Match any route under /blogs
-  if (!match) return null; // Don't render the header on other routes
-
   return (
-    <Header
-      activeButton={activeButton}
-      onSetActiveButton={setActiveButton}
-      setSelectedDocument={setSelectedDocument}
-      setSelectedCollectionAndTitle={setSelectedCollectionAndTitle}
-    />
+    <Route path="/blogs/*" element={<HeaderForBlogs />} />
   );
 };
 
