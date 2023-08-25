@@ -94,20 +94,27 @@ const Home = ({ selectedDocument }) => {
     setPlayingVideoUrl(videoUrl);
   };
 
-  const handleFieldClick = (fieldIndex) => {
-    const fieldElement = document.getElementById(`field-${fieldIndex}`);
-    if (fieldElement) {
-      const container = document.getElementById("home-section");
-      const containerRect = container.getBoundingClientRect();
-      const fieldRect = fieldElement.getBoundingClientRect();
+ const handleFieldClick = (fieldIndex) => {
+  const fieldElement = document.getElementById(`field-${fieldIndex}`);
+  if (fieldElement) {
+    const container = document.getElementById("home-section");
+    const containerRect = container.getBoundingClientRect();
+    const fieldRect = fieldElement.getBoundingClientRect();
 
-      const offsetY = fieldRect.top - containerRect.top;
-      container.scrollBy({ top: offsetY, behavior: "smooth" });
-    }
-    setSelectedField(fieldIndex);
-    setSidebarOpen(false);
-    navigate(`/home?selectedField=${fieldIndex}`);
-  };
+    const offsetY = fieldRect.top - containerRect.top;
+    container.scrollBy({ top: offsetY, behavior: "smooth" });
+  }
+  setSelectedField(fieldIndex);
+  setSidebarOpen(false);
+
+  // Now, let's set the selectedDocument to the data of the selected field.
+  if (fieldIndex >= 0 && fieldIndex < allFields.length) {
+    const selectedFieldData = allFields[fieldIndex][1];
+    setSelectedDocument(selectedFieldData);
+  }
+
+  navigate(`/home?selectedField=${fieldIndex}`);
+};
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
