@@ -1,8 +1,5 @@
-
-
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useRoutes } from "react-router-dom";
 import { Navbar, Header, Home, Blogs, Footer } from "./components";
 import SectionWrapper from "./hoc/SectionWrapper";
 
@@ -23,28 +20,21 @@ const App = () => {
             <Route
               path="/"
               element={(
-                <Header
-                  activeButton={activeButton}
-                  onSetActiveButton={setActiveButton}
-                  setSelectedDocument={setSelectedDocument}
-                  setSelectedCollectionAndTitle={setSelectedCollectionAndTitle}
-                />
+                <>
+                  <Header
+                    activeButton={activeButton}
+                    onSetActiveButton={setActiveButton}
+                    setSelectedDocument={setSelectedDocument}
+                    setSelectedCollectionAndTitle={setSelectedCollectionAndTitle}
+                  />
+                  <HomeWithSectionWrapper
+                    selectedDocument={selectedDocument}
+                    selectedCollectionAndTitle={selectedCollectionAndTitle}
+                  />
+                </>
               )}
             />
             <Route path="/blogs/*" element={<BlogsHeader />} />
-          </Routes>
-
-          <Routes>
-            <Route
-              path="/"
-              element={(
-                <HomeWithSectionWrapper
-                  selectedDocument={selectedDocument}
-                  selectedCollectionAndTitle={selectedCollectionAndTitle}
-                />
-              )}
-            />
-            <Route path="/blogs/*" element={<Blogs />} />
           </Routes>
         </div>
 
@@ -55,13 +45,6 @@ const App = () => {
     </BrowserRouter>
   );
 };
-const BlogsHeader = () => {
-  const routes = useRoutes([
-    { path: "/blogs/*", element: <HeaderForBlogs /> }
-  ]);
-
-  return routes;
-};
 
 const BlogsHeader = () => {
   const match = useMatch("/blogs/*"); // Match any route under /blogs
@@ -69,9 +52,7 @@ const BlogsHeader = () => {
 
   return (
     <Header
-      // eslint-disable-next-line no-undef
       activeButton={activeButton}
-      // eslint-disable-next-line no-undef
       onSetActiveButton={setActiveButton}
       setSelectedDocument={setSelectedDocument}
       setSelectedCollectionAndTitle={setSelectedCollectionAndTitle}
