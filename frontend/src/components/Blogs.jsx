@@ -166,25 +166,25 @@ const renderMediaContent = (content) => {
       if (item.startsWith("*") && item.endsWith("*")) {
         const styledText = item.substring(1, item.length - 1);
         element = (
-          <Text key={index} fontWeight="bold" fontStyle="italic" textColor="gold">
+          <Text key={index} fontWeight="bold" textColor="gold" fontStyle="italic">
             {styledText}
           </Text>
         );
       } else if (item.startsWith("$") && item.endsWith("$")) {
         const styledText = item.substring(1, item.length - 1);
         element = (
-          <Text key={index} fontWeight="bold" fontStyle="bold" textColor="red">
+          <Text key={index} fontWeight="bold" textColor="red" fontStyle="bold">
             {styledText}
           </Text>
         );
       } else if (item.startsWith("~") && item.endsWith("~")) {
         const styledText = item.substring(1, item.length - 1);
         element = (
-          <Text key={index} fontWeight="bold" fontStyle="bold" textColor="lime">
+          <Text key={index} fontWeight="bold" textColor="lime" fontStyle="bold">
             {styledText}
           </Text>
         );
-      } else if (item.startsWith("http")) {
+        } else if (item.startsWith("http")) {
           if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
             return (
               <Image
@@ -221,14 +221,11 @@ const renderMediaContent = (content) => {
           {renderMediaContent(item)}
         </VStack>
       );
-    } else {
-      element = <Text key={index}>{item}</Text>;
     }
 
     return <Box key={index} mb={2}>{element}</Box>;
   });
 };
-
 
   
   const navbarHeight = document.querySelector(".navbar")?.clientHeight || 0;
