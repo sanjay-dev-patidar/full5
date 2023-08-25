@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowCircleUp } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { SectionWrapper } from "../hoc";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import ReactPlayer from "react-player";
@@ -311,4 +312,4 @@ const Blogs = () => {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export default Blogs;
+export default SectionWrapper(Blogs, "blogs");
