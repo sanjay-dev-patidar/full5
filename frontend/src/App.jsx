@@ -55,6 +55,14 @@ const App = () => {
   );
 };
 const BlogsHeader = () => {
+  const routes = useRoutes([
+    { path: "/blogs/*", element: <HeaderForBlogs /> }
+  ]);
+
+  return routes;
+};
+
+const BlogsHeader = () => {
   const match = useMatch("/blogs/*"); // Match any route under /blogs
   if (!match) return null; // Don't render the header on other routes
 
