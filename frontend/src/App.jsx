@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import { Navbar, Header, Home, Blogs, Footer } from "./components";
 import SectionWrapper from "./hoc/SectionWrapper";
 
