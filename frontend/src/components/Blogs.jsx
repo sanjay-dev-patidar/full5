@@ -163,58 +163,30 @@ const renderMediaContent = (content) => {
     let element;
 
     if (typeof item === "string") {
-      const asteriskRegex = /\*(.*?)\*/g;
-      const dollarRegex = /\$(.*?)\$/g;
-      const tildeRegex = /~(.*?)~/g;
-
-      let lastIndex = 0;
-      const elements = [];
-
-      let match;
-      while (
-        (match = asteriskRegex.exec(item)) ||
-        (match = dollarRegex.exec(item)) ||
-        (match = tildeRegex.exec(item))
-      ) {
-        if (match.index !== lastIndex) {
-          elements.push(
-            <Text key={lastIndex}>{item.substring(lastIndex, match.index)}</Text>
-          );
-        }
-
-        elements.push(
-          <Text
-            key={match.index}
-            fontWeight="bold"
-            textColor={
-              match[0].startsWith("*")
-                ? "gold"
-                : match[0].startsWith("$")
-                ? "red"
-                : "lime"
-            }
-            fontStyle={
-              match[0].startsWith("*")
-                ? "italic"
-                : match[0].startsWith("$")
-                ? "bold"
-                : "bold"
-            }
-          >
-            {match[1]}
+      if (item.startsWith("*") && item.endsWith("*")) {
+        const styledText = item.substring(1, item.length - 1);
+        element = (
+          <Text key={index} fontWeight="bold" textColor="gold" fontStyle="italic">
+            {styledText}
           </Text>
         );
-
-        lastIndex = match.index + match[0].length;
-      }
-
-      if (lastIndex < item.length) {
-        elements.push(
-          <Text key={lastIndex}>{item.substring(lastIndex)}</Text>
+      } else if (item.startsWith("$") && item.endsWith("$")) {
+        const styledText = item.substring(1, item.length - 1);
+        element = (
+          <Text key={index} fontWeight="bold" textColor="red" fontStyle="bold">
+            {styledText}
+          </Text>
         );
+      } else if (item.startsWith("~") && item.endsWith("~")) {
+        const styledText = item.substring(1, item.length - 1);
+        element = (
+          <Text key={index} fontWeight="bold" textColor="lime" fontStyle="bold">
+            {styledText}
+          </Text>
+        );
+      } else {
+        element = <Text key={index}>{item}</Text>;
       }
-
-      element = <>{elements}</>;
     } else if (item.startsWith("http")) {
       if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
         element = (
