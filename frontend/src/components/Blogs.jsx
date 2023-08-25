@@ -160,6 +160,14 @@ const renderMediaContent = (content) => {
   }
 
   return content.map((item, index) => {
+    if (Array.isArray(item)) {
+      return (
+        <VStack key={index} align="start" spacing={2} mt={2}>
+          {renderMediaContent(item)}
+        </VStack>
+      );
+    }
+
     let element;
 
     if (typeof item === "string") {
@@ -184,43 +192,40 @@ const renderMediaContent = (content) => {
             {styledText}
           </Text>
         );
-        } else if (item.startsWith("http")) {
-          if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
-            return (
-              <Image
-                key={index}
-                src={item}
-                alt={`Image ${index}`}
-                maxW="100%"
-                h="auto"
-              />
-            );
-          } else if (item.match(/\.(mp4|webm|mkv)$/)) {
-            return (
-              <Box
-                key={index}
-                position="relative"
-                paddingTop="56.25%"
+      } else if (item.startsWith("http")) {
+        if (item.match(/\.(jpeg|jpg|gif|png)$/)) {
+          element = (
+            <Image
+              key={index}
+              src={item}
+              alt={`Image ${index}`}
+              maxW="100%"
+              h="auto"
+            />
+          );
+        } else if (item.match(/\.(mp4|webm|mkv)$/)) {
+          element = (
+            <Box
+              key={index}
+              position="relative"
+              paddingTop="56.25%"
+              width="100%"
+            >
+              <ReactPlayer
+                url={item}
+                controls
                 width="100%"
-              >
-                <ReactPlayer
-                  url={item}
-                  controls
-                  width="100%"
-                  height="100%"
-                  style={{ position: "absolute", top: 0, left: 0 }}
-                />
-              </Box>
-            );
+                height="100%"
+                style={{ position: "absolute", top: 0, left: 0 }}
+              />
+            </Box>
+          );
+        } else {
+          element = <Text key={index}>{item}</Text>;
+        }
       } else {
         element = <Text key={index}>{item}</Text>;
       }
-    } else if (Array.isArray(item)) {
-      element = (
-        <VStack key={index} align="start" spacing={2} mt={2}>
-          {renderMediaContent(item)}
-        </VStack>
-      );
     }
 
     return <Box key={index} mb={2}>{element}</Box>;
